@@ -32,15 +32,19 @@ const LoadContentPage = async () => {
   document.getElementById("main-page").innerHTML = html;
 
   // Ajout du contenu JavaScript
-  if (actualRoute.pathJS != "") {
-    // Création d'une balise script
-    var scriptTag = document.createElement("script");
-    scriptTag.setAttribute("type", "text/javascript");
-    scriptTag.setAttribute("src", actualRoute.pathJS);
+ if (actualRoute.pathJS != "") {
 
-    // Ajout de la balise script au corps du document
-    document.querySelector("body").appendChild(scriptTag);
-  }
+  // 🔴 SUPPRIME les anciens scripts dynamiques
+  document.querySelectorAll("script[data-dynamic='true']").forEach(el => el.remove());
+
+  // 🟢 AJOUT du nouveau script
+  const scriptTag = document.createElement("script");
+  scriptTag.setAttribute("type", "text/javascript");
+  scriptTag.setAttribute("src", actualRoute.pathJS);
+  scriptTag.setAttribute("data-dynamic", "true");
+
+  document.body.appendChild(scriptTag);
+}
 
   // Changement du titre de la page
   document.title = actualRoute.title + " - " + websiteName;
